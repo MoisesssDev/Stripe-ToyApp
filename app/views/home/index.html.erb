@@ -1,8 +1,13 @@
 <h1>Index Home </h1>
 
 <% if current_user.store.stripe_account_id.present? %>
-  <%= current_user.store.stripe_account.to_json %>
+  <p>Visite o dashboard</p>
 <% else %>
   <p>No Stripe account found</p>
-  <%= button_to "Create a Stripe Account", stripe_account_path, method: :post, data: { turbo: false } %>
+  <%= button_to "Criar conta Stripe", stripe_account_path, method: :post, data: { turbo: false } %>
 <% end %>
+
+
+<% if current_user %>
+  <%= button_to "Logout", destroy_user_session_path, method: :delete %>
+<% end %> 
