@@ -10,7 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_12_203937) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_12_205335) do
+  create_table "bookings", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "experience_id", null: false
+    t.string "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["experience_id"], name: "index_bookings_on_experience_id"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
+  end
+
+  create_table "experiences", force: :cascade do |t|
+    t.integer "store_id", null: false
+    t.string "title"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["store_id"], name: "index_experiences_on_store_id"
+  end
+
+  create_table "stores", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "title"
+    t.string "stripe_account_id"
+    t.boolean "charges_enabled"
+    t.boolean "payouts_enabled"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_stores_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -22,4 +51,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_12_203937) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "bookings", "experiences"
+  add_foreign_key "bookings", "users"
+  add_foreign_key "experiences", "stores"
+  add_foreign_key "stores", "users"
 end
