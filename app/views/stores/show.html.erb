@@ -1,10 +1,19 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @store %>
+<div class="space-y-2 flex justify-center w-full">
+  <div class="space-y-4 p-8 rounded-xl border shadow max-w-xl">
+    <div class="space-y-2">
+      <% if @store.stripe_account_id.present? %>
+        <p class="font-black text-4xl">Visite o <span class="text-blue-500">dashboard</span>!</p>
+        <p>link aqui.</p>
+      <% else %>
+        <p class="font-black text-4xl">Crie sua conta <span class="text-blue-500">Stripe</span>!</p>
+        <%= button_to "Criar conta Stripe", stripe_account_path, method: :post, data: { turbo: false }, class: 'inline-block border bg-blue-500 text-white border-blue-500 transition-colors py-2 px-8 rounded-xl font-medium hover:bg-secondary' %>
+      <% end %>
+    </div>
+  </div>
+</div>
 
 <div>
-  <%= link_to "Edit this store", edit_store_path(@store) %> |
-  <%= link_to "Back to stores", stores_path %>
-
-  <%= button_to "Destroy this store", @store, method: :delete %>
+  <%= link_to "Back to home", root_path %>
 </div>
