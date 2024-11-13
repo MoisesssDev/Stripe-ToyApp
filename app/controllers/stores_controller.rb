@@ -38,7 +38,7 @@ class StoresController < ApplicationController
   def update
     respond_to do |format|
       if @store.update(store_params)
-        format.html { redirect_to @store, notice: "Store was successfully updated." }
+        format.html { redirect_to root_path, notice: "Store was successfully updated." }
         format.json { render :show, status: :ok, location: @store }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -65,6 +65,6 @@ class StoresController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def store_params
-      params.fetch(:store, {})
+      params.require(:store).permit(:title).merge(user_id: current_user.id)
     end
 end
