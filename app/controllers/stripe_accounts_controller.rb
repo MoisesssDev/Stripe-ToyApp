@@ -2,6 +2,11 @@ class StripeAccountsController < ApplicationController
   def show
   end
 
+  def finish_stripe_account
+    account_link_url = generate_onboarding_link
+    redirect_to account_link_url, status: :see_other, allow_other_host: true
+  end
+
   def dashboard
     account = Stripe::Account.retrieve(current_user.store.stripe_account_id)
     login_links = account.login_links.create
@@ -17,18 +22,17 @@ class StripeAccountsController < ApplicationController
     )
     current_user.store.update(stripe_account_id: account.id)
 
-    account_link_url = generate_onboarding_link(account)
-
+    account_link_url = generate_onboarding_link
     redirect_to account_link_url, status: :see_other, allow_other_host: true
   end
 
   private
 
-  def generate_onboarding_link(account)
+  def generate_onboarding_link
     account_link = Stripe::AccountLink.create({
-      account: account.id,
-      refresh_url: stripe_account_url,
-      return_url: stripe_account_url,
+      account: current_user.store.stripe_account_id,
+      refresh_url: store_url(current_user.store),
+      return_url: store_url(current_user.store),
       type: "account_onboarding"
     })
 
