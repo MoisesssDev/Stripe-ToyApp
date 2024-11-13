@@ -1,7 +1,10 @@
 <h1>Index Home </h1>
 
 <% if current_user.store.stripe_account_id.present? %>
-  <p>Visite o dashboard</p>
+
+    <p>Visite o dashboard</p>
+    <%# link_to "Dashboard", dashboard_stripe_account_path #%>
+
 <% else %>
   <p>No Stripe account found</p>
   <%= button_to "Criar conta Stripe", stripe_account_path, method: :post, data: { turbo: false } %>

@@ -2,6 +2,13 @@ class StripeAccountsController < ApplicationController
   def show
   end
 
+  def dashboard
+    account = Stripe::Account.retrieve(current_user.store.stripe_account_id)
+    login_links = account.login_links.create
+
+    redirect_to login_links.url
+  end
+
   def create
     account = Stripe::Account.create(
     type: "express",
