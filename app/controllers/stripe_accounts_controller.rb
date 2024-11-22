@@ -1,17 +1,14 @@
 class StripeAccountsController < ApplicationController
   def show
-  end
-
-  def finish_stripe_account
-    account_link_url = generate_onboarding_link
-    redirect_to account_link_url, status: :see_other, allow_other_host: true
-  end
-
-  def dashboard
     account = Stripe::Account.retrieve(current_user.store.stripe_account_id)
     login_links = account.login_links.create
 
-    redirect_to login_links.url
+    redirect_to login_links.url, status: :see_other, allow_other_host: true
+  end
+
+  def update
+    account_link_url = generate_onboarding_link
+    redirect_to account_link_url, status: :see_other, allow_other_host: true
   end
 
   def create
