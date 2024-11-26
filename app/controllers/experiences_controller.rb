@@ -8,6 +8,7 @@ class ExperiencesController < ApplicationController
 
   # GET /experiences/1 or /experiences/1.json
   def show
+    @batch = @experience.batch
   end
 
   # GET /experiences/new
@@ -65,6 +66,6 @@ class ExperiencesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def experience_params
-      params.fetch(:experience, {})
+      params.require(:experience).permit(:title).merge(store_id: current_user.store.id)
     end
 end

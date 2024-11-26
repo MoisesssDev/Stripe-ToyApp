@@ -2,9 +2,19 @@
 
 <%= render @experience %>
 
-<div>
-  <%= link_to "Edit this experience", edit_experience_path(@experience) %> |
-  <%= link_to "Back to experiences", experiences_path %>
+<% if @experience.store == current_user.store %>
+  <p>
+    <%= link_to 'Edit', edit_experience_path(@experience) %> |
+    <%= link_to 'Back', experiences_path %>
+  </p>
 
-  <%= button_to "Destroy this experience", @experience, method: :delete %>
-</div>
+  <% if @experience.batch.present? %>
+    <h2>Preço</h2>
+    <p>R$ <%= @batch.price %></p>
+  <% else %>
+    <p>Nenhuma turma cadastrada</p>
+    <%= link_to 'Abrir nova turma', new_batch_path(experience_id: @experience.id) %>
+  <% end %>
+
+<% end %>
+
