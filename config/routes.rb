@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :batches, only: [ :new, :create ]
   resources :stores
   resources :experiences
 
