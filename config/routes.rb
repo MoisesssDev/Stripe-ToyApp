@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :batches, only: [ :new, :create ]
   resources :stores
   resources :experiences
+  resources :checkouts, only: [ :create ]
 
   resource :stripe_account, only: [ :show, :update, :create ]
   devise_for :users
