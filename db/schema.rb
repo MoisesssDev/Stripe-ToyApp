@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_26_174559) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_26_210946) do
   create_table "batches", force: :cascade do |t|
     t.integer "price"
     t.integer "experience_id", null: false
@@ -21,9 +21,11 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_174559) do
 
   create_table "bookings", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.string "status"
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "batch_id", null: false
+    t.index ["batch_id"], name: "index_bookings_on_batch_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
@@ -59,6 +61,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_174559) do
   end
 
   add_foreign_key "batches", "experiences"
+  add_foreign_key "bookings", "batches"
   add_foreign_key "bookings", "users"
   add_foreign_key "experiences", "stores"
   add_foreign_key "stores", "users"

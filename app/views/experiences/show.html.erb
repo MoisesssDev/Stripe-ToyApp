@@ -9,8 +9,10 @@
   </p>
 
   <% if @experience.batch.present? %>
-    <h2>Preço</h2>
-    <p>R$ <%= @batch.price %></p>
+    <%= form_with url: checkouts_path, data: { turbo: false }, method: :post do %>
+      <%= hidden_field_tag :batch_id, @batch.id %>
+      <%= submit_tag "Reservar por R$#{@batch.price / 100}" %>
+    <% end %>
   <% else %>
     <p>Nenhuma turma cadastrada</p>
     <%= link_to 'Abrir nova turma', new_batch_path(experience_id: @experience.id) %>
