@@ -10,14 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_26_165855) do
+ActiveRecord::Schema[7.2].define(version: 2024_11_26_174559) do
   create_table "batches", force: :cascade do |t|
     t.integer "price"
     t.integer "experience_id", null: false
-    t.integer "booking_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["booking_id"], name: "index_batches_on_booking_id"
     t.index ["experience_id"], name: "index_batches_on_experience_id"
   end
 
@@ -60,7 +58,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_165855) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "batches", "bookings"
   add_foreign_key "batches", "experiences"
   add_foreign_key "bookings", "users"
   add_foreign_key "experiences", "stores"
