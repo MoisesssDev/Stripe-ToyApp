@@ -7,9 +7,9 @@
 <% if @experience.store == current_user.store %>
 
   <% if @experience.batch.present? %>
-    <%= form_with url: checkouts_path, data: { turbo: false }, method: :post do %>
+    <%= form_with url: checkouts_path, data: { turbo: false }, class: 'p-8', method: :post do %>
       <%= hidden_field_tag :batch_id, @batch.id %>
-      <%= submit_tag "Reservar por R$#{@batch.price / 100}" %>
+      <%= submit_tag "Reservar por R$#{@batch.price / 100}", class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
     <% end %>
   <% else %>
     <div class="p-8">

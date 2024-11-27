@@ -1,20 +1,27 @@
-<%= form_with(model: batch, local: true) do |form| %>
-  <% if batch.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(batch.errors.count, "error") %> prohibited this store from being saved:</h2>
+<div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+  <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Criar nova turma</h2>
+  <%= form_with(model: batch, local: true, class: 'space-y-6') do |form| %>
+    <% if batch.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(batch.errors.count, "error") %> prohibited this store from being saved:</h2>
 
-      <ul>
-        <% batch.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
+        <ul>
+          <% batch.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form.label :price, class: 'block text-sm font-medium text-gray-700' %>
+    <%= form.number_field :price, class: 'appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm' %>
+
+    <%= form.hidden_field :experience_id, value: params[:experience_id] %>
+
+    <%= form.submit 'Criar', class: 'group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500' %>
   <% end %>
+</div>
 
-  <%= form.label :price %>
-  <%= form.number_field :price %>
-
-  <%= form.hidden_field :experience_id, value: params[:experience_id] %>
-
-  <%= form.submit %>
-<% end %>
+<div>
+  <%= link_to "Back to experiences", experiences_path, class: "text-blue-500 underline p-8" %>
+</div>
