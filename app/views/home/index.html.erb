@@ -28,4 +28,20 @@
             </div>
         </div>
     </div>
+
+
+    <div class="mt-20">
+        <h2 class="text-3xl font-bold text-center">Oficinas em destaque</h2>
+        <div class="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 lg:grid-cols-3">
+            <% @experiences.each do |experience| %>
+                <div class="relative flex flex-col items-center justify-between p-4 bg-white rounded-lg shadow-lg">
+                    <div class="flex items center justify-center bg-gray-200">
+                        <h3 class="text-2xl font-bold text-center text-gray-700">
+                            <%= experience.title %>
+                        </h3>
+                    </div>
+                    <%= link_to 'Ver detalhes', experience_path(experience), class: 'mt-4 text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 py-2 px-4' %>
+                </div>
+            <% end %>
+        </div>
 </div>
