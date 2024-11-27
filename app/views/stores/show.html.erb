@@ -3,7 +3,7 @@
 <% stripe_onboarded = @store.charges_enabled? || @store.payouts_enabled? %>
 
 <div class="space-y-2 flex justify-center w-full">
-  <div class="space-y-4 p-8 rounded-xl border shadow max-w-xl">
+  <div class="space-y-4 p-8 rounded-xl border shadow max-w-xl mt-4">
     <div class="space-y-2">
       <% if @store.stripe_account_id.present? %>
         
@@ -27,5 +27,5 @@
 </div>
 
 <div>
-  <%= link_to "Back to home", root_path %>
+  <%= link_to "Back to home", root_path, class: 'text-blue-500 underline p-8' %>
 </div>
