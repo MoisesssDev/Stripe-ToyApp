@@ -2,15 +2,21 @@
 
 <% content_for :title, "Experiences" %>
 
-<h1>Experiences</h1>
+<div class="p-8 bg-slade-500 mb-4">
+  <h3 class="text-3xl font-extrabold text-gray-900 mb-8">Experiências</h3>
 
-<div id="experiences">
-  <% @experiences.each do |experience| %>
-    <%= render experience %>
-    <p>
-      <%= link_to "Show this experience", experience %>
-    </p>
-  <% end %>
+  <div id="experiences">
+    <% @experiences.each do |experience| %>
+      <%= render experience %>
+      <p>
+        <%= link_to "Show this experience", experience %>
+      </p>
+    <% end %>
+  </div>
+
+  <%= link_to "Nova experiência", new_experience_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" %>
 </div>
 
-<%= link_to "New experience", new_experience_path %>
+<div>
+  <%= link_to "Back", root_path, class: "text-blue-500 underline p-8" %>
+</div>

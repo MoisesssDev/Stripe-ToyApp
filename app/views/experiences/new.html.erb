@@ -1,11 +1,9 @@
 <% content_for :title, "New experience" %>
 
-<h1>New experience</h1>
-
 <%= render "form", experience: @experience %>
 
 <br>
 
 <div>
-  <%= link_to "Back to experiences", experiences_path %>
+  <%= link_to "Back to experiences", experiences_path, class: "text-blue-500 underline p-8" %>
 </div>
