@@ -1,12 +1,10 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @experience %>
+<div class="p-8 bg-slade-800">
+  <h3 class="text-3xl font-extrabold text-gray-900" ><%= @experience.title %></h3>
+</div>
 
 <% if @experience.store == current_user.store %>
-  <p>
-    <%= link_to 'Edit', edit_experience_path(@experience) %> |
-    <%= link_to 'Back', experiences_path %>
-  </p>
 
   <% if @experience.batch.present? %>
     <%= form_with url: checkouts_path, data: { turbo: false }, method: :post do %>
@@ -14,9 +12,12 @@
       <%= submit_tag "Reservar por R$#{@batch.price / 100}" %>
     <% end %>
   <% else %>
-    <p>Nenhuma turma cadastrada</p>
-    <%= link_to 'Abrir nova turma', new_batch_path(experience_id: @experience.id) %>
+    <div class="p-8">
+      <p class="mb-4">Nenhuma turma cadastrada</p>
+      <%= link_to 'Abrir nova turma', new_batch_path(experience_id: @experience.id), class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' %>
+    </div>
   <% end %>
 
 <% end %>
 
+<%= link_to 'Back', experiences_path, class: 'underline text-blue-500 p-8' %>
