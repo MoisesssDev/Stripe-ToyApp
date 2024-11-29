@@ -8,6 +8,14 @@ class CheckoutsController < ApplicationController
       render json: { error: "Store is not configured for payments" }, status: :unprocessable_entity
     end
 
+    booking = Booking.find_by(user: current_user, batch: @batch)
+
+    if booking.present?
+      return redirect_to bookings_path, notice: "You already have a booking for this experience"
+    end
+
+    booking = Booking.create(user: current_user, batch: @batch)
+
     session = Stripe::Checkout::Session.create(
       payment_method_types: [ "card" ],
       line_items: [ {
@@ -21,17 +29,15 @@ class CheckoutsController < ApplicationController
         quantity: 1
       } ],
       mode: "payment",
-      success_url: experience_url(@batch.experience), # Redirecionamento após sucesso
+      success_url: bookings_url, # Redirecionamento após sucesso
       cancel_url: experience_url(@batch.experience),  # Redirecionamento após cancelamento
       payment_intent_data: {
-        application_fee_amount: (@batch.price * 0.85).to_i, # Taxa de 15% para o marketplace
+        application_fee_amount: (@batch.price * 0.15).to_i, # Taxa de 15% para o marketplace
         transfer_data: {
           destination: store.stripe_account_id # Conta Stripe do parceiro
         }
       }
     )
-
-    Booking.find_or_create_by(user: current_user, batch: @batch, status: :pending)
 
     redirect_to session.url, status: :see_other, allow_other_host: true
   end

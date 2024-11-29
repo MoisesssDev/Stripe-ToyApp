@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :stores
   resources :experiences
   resources :checkouts, only: [ :create ]
+  resources :bookings, only: [ :index ]
 
   resource :stripe_account, only: [ :show, :update, :create ]
   devise_for :users
