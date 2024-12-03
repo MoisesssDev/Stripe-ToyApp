@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_11_26_210946) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_03_151955) do
   create_table "batches", force: :cascade do |t|
     t.integer "price"
     t.integer "experience_id", null: false
@@ -25,6 +25,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_11_26_210946) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "batch_id", null: false
+    t.string "stripe_payment_intent_id"
     t.index ["batch_id"], name: "index_bookings_on_batch_id"
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
