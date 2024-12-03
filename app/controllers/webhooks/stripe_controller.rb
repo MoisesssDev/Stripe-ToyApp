@@ -12,12 +12,13 @@ class Webhooks::StripeController < Webhooks::BaseController
       # Invalid payload
       puts "⚠️  Webhook error while parsing basic request. #{e.message})"
       render json: { message: "failed" }, status: 400
-      return
     end
 
     case event.type
     when "account.updated"
       handle_account_updated(event.data.object)
+    when "checkout.session.completed"
+      handle_checkout_session_completed(event.data.object)
     else
       puts "Unhandled event type: #{event.type}"
     end
@@ -33,5 +34,14 @@ class Webhooks::StripeController < Webhooks::BaseController
       charges_enabled: account.charges_enabled,
       payouts_enabled: account.payouts_enabled
     )
+  end
+
+  def handle_checkout_session_completed(session)
+    batch = Batch.find(session.metadata.batch_id)
+    user = User.find(session.metadata.user_id)
+
+    booking = Booking.create!(batch: batch, user: user, stripe_payment_intent_id: session.payment_intent)
+    booking.save!
+    Rails.logger.info "✅ Booking created for CheckoutSession #{session.id}"
   end
 end

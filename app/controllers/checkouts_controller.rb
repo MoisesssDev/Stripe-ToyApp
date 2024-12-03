@@ -21,6 +21,7 @@ class CheckoutsController < ApplicationController
         quantity: 1
       } ],
       mode: "payment",
+      metadata: { batch_id: @batch.id, user_id: current_user.id },
       success_url: bookings_url, # Redirecionamento após sucesso
       cancel_url: experience_url(@batch.experience),  # Redirecionamento após cancelamento
       payment_intent_data: {
