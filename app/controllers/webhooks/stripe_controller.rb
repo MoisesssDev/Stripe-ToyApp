@@ -17,16 +17,21 @@ class Webhooks::StripeController < Webhooks::BaseController
 
     case event.type
     when "account.updated"
-      account = event.data.object # contains a Stripe::Account
-      store = Store.find_by(stripe_account_id: account.id)
-      store.update(
-        charges_enabled: account.charges_enabled,
-        payouts_enabled: account.payouts_enabled
-      )
+      handle_account_updated(event.data.object)
     else
       puts "Unhandled event type: #{event.type}"
     end
 
     render json: { message: "success" }
+  end
+
+  private
+
+  def handle_account_updated(account)
+    store = Store.find_by(stripe_account_id: account.id)
+    store.update(
+      charges_enabled: account.charges_enabled,
+      payouts_enabled: account.payouts_enabled
+    )
   end
 end
