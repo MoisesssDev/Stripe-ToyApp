@@ -8,14 +8,6 @@ class CheckoutsController < ApplicationController
       render json: { error: "Store is not configured for payments" }, status: :unprocessable_entity
     end
 
-    booking = Booking.find_by(user: current_user, batch: @batch)
-
-    if booking.present?
-      return redirect_to bookings_path, notice: "You already have a booking for this experience"
-    end
-
-    booking = Booking.create(user: current_user, batch: @batch)
-
     session = Stripe::Checkout::Session.create(
       payment_method_types: [ "card" ],
       line_items: [ {
