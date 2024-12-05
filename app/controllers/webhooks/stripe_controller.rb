@@ -19,6 +19,8 @@ class Webhooks::StripeController < Webhooks::BaseController
       handle_account_updated(event.data.object)
     when "checkout.session.completed"
       handle_checkout_session_completed(event.data.object)
+    when "payment_intent.succeeded"
+      handle_payment_intent_created(event.data.object)
     else
       puts "Unhandled event type: #{event.type}"
     end
@@ -40,8 +42,15 @@ class Webhooks::StripeController < Webhooks::BaseController
     batch = Batch.find(session.metadata.batch_id)
     user = User.find(session.metadata.user_id)
 
-    booking = Booking.create!(batch: batch, user: user, stripe_payment_intent_id: session.payment_intent)
+    booking = Booking.create!(batch: batch, user: user, stripe_payment_intent_id: session.payment_intent, status: :pending)
     booking.save!
     Rails.logger.info "✅ Booking created for CheckoutSession #{session.id}"
+  end
+
+  def handle_payment_intent_succeeded(payment_intent)
+    booking = Booking.find_by(stripe_payment_intent_id: payment_intent.id)
+
+    booking.update(status: :confirmed)
+    Rails.logger.info "✅ Booking updated to paid for PaymentIntent"
   end
 end
