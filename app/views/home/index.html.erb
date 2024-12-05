@@ -1,6 +1,7 @@
 
 <% if current_user %>
-  <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-primary" %>
+    <%= button_to "Logout", destroy_user_session_path, method: :delete, class: "btn btn-primary" %>
+    <%= link_to "Minhas reservas", bookings_path %>
 <% end %> 
 
 <div class="relative mx-auto max-w-5xl mt-20">

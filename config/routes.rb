@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   resources :checkouts, only: [ :create ]
   resources :bookings, only: [ :index ]
 
-  resource :stripe_account, only: [ :show, :update, :create ]
+  resources :stripe_account, only: [ :show, :update, :create ]
+  resources :refunds, only: [ :create ]
+
   devise_for :users
   root to: "home#index"
 
